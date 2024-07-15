@@ -3,7 +3,9 @@ Shader "Learning/Random1"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _RandomMultiplier("Random Multiplier", Range(1,100000)) = 1.0
+        _RandomMultiplier("Random Multiplier", Range(100,100000)) = 100
+        _Offset_X("_Offset_X", float) = 1.0
+        _Offset_Y("_Offset_Y", float) = 1.0
     }
     SubShader
     {
@@ -33,6 +35,8 @@ Shader "Learning/Random1"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _RandomMultiplier;
+            float _Offset_X;
+            float _Offset_Y;
 
             v2f vert (VertexData v)
             {
@@ -42,14 +46,18 @@ Shader "Learning/Random1"
                 return o;
             }
 
-            float random(float x, float m)
+            float random(float2 p)
             {
-                return frac(sin(x) * m);
+                float d = dot(p, float2(_Offset_X, _Offset_Y));
+                float s = sin(d);
+                return frac(s * 65124.6234125);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float rnd = random(i.uv.x, _RandomMultiplier);
+                float2 uv = i.uv * 20;
+                float2 id = floor(uv);
+                float rnd = random(i.uv);
                 return fixed4(rnd, rnd, rnd, 1);
             }
             ENDCG

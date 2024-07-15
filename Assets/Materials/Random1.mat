@@ -71,8 +71,12 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OffsetX: 1
+    - _OffsetY: 1
+    - _Offset_X: 25.05
+    - _Offset_Y: 12.15
     - _Parallax: 0.02
-    - _RandomMultiplier: 1
+    - _RandomMultiplier: 10000
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
