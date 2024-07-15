@@ -6,6 +6,7 @@ Shader "Learning/Random1"
         _RandomMultiplier("Random Multiplier", Range(100,100000)) = 100
         _Offset_X("_Offset_X", float) = 1.0
         _Offset_Y("_Offset_Y", float) = 1.0
+        _LineWidth("_LineWidth", float) = 1.0
     }
     SubShader
     {
@@ -37,6 +38,7 @@ Shader "Learning/Random1"
             float _RandomMultiplier;
             float _Offset_X;
             float _Offset_Y;
+            float _LineWidth;
 
             v2f vert (VertexData v)
             {
@@ -72,7 +74,11 @@ Shader "Learning/Random1"
                 float2 gv = frac(uv);
                 float rnd = random(id);
                 float2 tile = getTile(gv, rnd);
-                return fixed4(tile, 0, 1);
+                float c = 0.0;
+                float s1 = smoothstep(tile.x - _LineWidth, tile.x, tile.y);
+                float s2 = smoothstep(tile.x, tile.x + _LineWidth, tile.y);
+                c = s1 - s2;
+                return fixed4(c, c, c, 1);
             }
             ENDCG
         }
