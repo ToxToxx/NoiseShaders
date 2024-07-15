@@ -44,20 +44,37 @@ Shader "Learning/PerlinNoise"
                 return o;
             }
 
-            float random(float x)
+            float random(float2 p)
             {
-                float s = sin(x);
+                float d = dot(p, float2(11.52346, 54.6341));
+                float s = sin(d);
                 return frac (s * 65124.6234125);
                 
+            }
+
+            float noise(float2 uv)
+            {
+                float2 id = floor(uv);
+                float2 f = frac(uv);
+
+                float a = random(id);
+                float b = random(id + float2(1.0, 0.0));
+                float c = random(id + float2(0.0, 1.0));
+                float d= random(id + float2(1.0, 1.0));
+
+                float2 u = f * f * (3.0 - 2.0 * f);
+
+                float x1 = lerp(a, b, u.x);
+                float x2 = lerp(c, d, u.x);
+                return lerp(x1,x2, u.y);
+
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv * 10;
-                float idx = floor(uv.x);
-                float gvx = frac(uv.x);
-                float col = random(idx);
-                return fixed4(col,col,col,1);
+                float col = noise(uv);
+                return fixed4(col,col,col, 1);
             }
             ENDCG
         }
