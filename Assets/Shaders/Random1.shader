@@ -50,15 +50,29 @@ Shader "Learning/Random1"
             {
                 float d = dot(p, float2(_Offset_X, _Offset_Y));
                 float s = sin(d);
-                return frac(s * 65124.6234125);
+                return frac(s * 65124.6234125); // replace with Random Multiplier
+            }
+
+            float2 getTile(float2 gv, float rnd) // better not use if statements in shaders
+            {
+                if(rnd > 0.75)
+                    gv = float2(1.0, 1.0) - gv;
+                else if(rnd > 0.5)
+                    gv = float2 (1.0 - gv.x, gv.y);
+                else if (rnd > 0.25)
+                    gv = 1.0 - float2(1.0 - gv.x, gv.y);
+
+                return gv;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 uv = i.uv * 20;
+                float2 uv = i.uv * 10;
                 float2 id = floor(uv);
-                float rnd = random(i.uv);
-                return fixed4(rnd, rnd, rnd, 1);
+                float2 gv = frac(uv);
+                float rnd = random(id);
+                float2 tile = getTile(gv, rnd);
+                return fixed4(tile, 0, 1);
             }
             ENDCG
         }

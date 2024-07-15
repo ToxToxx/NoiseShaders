@@ -76,7 +76,7 @@ Material:
     - _Offset_X: 25.05
     - _Offset_Y: 12.15
     - _Parallax: 0.02
-    - _RandomMultiplier: 10000
+    - _RandomMultiplier: 100
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
