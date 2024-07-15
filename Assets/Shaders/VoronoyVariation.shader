@@ -1,6 +1,6 @@
-Shader "Learning/VoronoyNoise"
+Shader "Learning/VoronoyVariation"
 {
-    Properties
+     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
     }
@@ -62,6 +62,7 @@ Shader "Learning/VoronoyNoise"
 
                 float resultDistance = 1.0;
 
+                float2 resultPoint = 0.0;
                 for(int y = -1; y <= 1; y++)
                 {
                     for(int x = -1; x <= 1; x++)
@@ -71,7 +72,12 @@ Shader "Learning/VoronoyNoise"
 
                         float distance = length(p - gv + offset);
 
+                        if(distance < resultDistance)
+                        {
+                            resultDistance = distance;
+                            resultPoint = p;
 
+                        }
 
                         resultDistance = min(resultDistance, distance);
                         
@@ -79,7 +85,7 @@ Shader "Learning/VoronoyNoise"
 
                 }
 
-                color += resultDistance;
+                color += random(resultPoint);
 
                 return fixed4(color,color, color, 1);
             }
@@ -87,3 +93,4 @@ Shader "Learning/VoronoyNoise"
         }
     }
 }
+    
