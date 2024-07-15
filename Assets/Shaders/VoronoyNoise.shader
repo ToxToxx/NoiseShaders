@@ -72,13 +72,22 @@ Shader "Learning/VoronoyNoise"
 
                         float distance = length(p - gv + offset);
 
+                        //variation of voronoy
+                        if(distance < resultDistance)
+                        {
+                            resultDistance = distance;
+                            resultPoint = p;
+
+                        }
+
                         resultDistance = min(resultDistance, distance);
                         
                     }
 
                 }
 
-                color += resultDistance;
+                //color += resultDistance;
+                color += random(resultPoint);//variation of voronoy
 
                 return fixed4(color,color, color, 1);
             }
