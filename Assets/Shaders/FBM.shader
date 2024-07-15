@@ -1,4 +1,4 @@
-Shader "Unlit/FBM"
+Shader "Learning/FBM"
 {
     Properties
     {
@@ -42,6 +42,24 @@ Shader "Unlit/FBM"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
+            }
+
+            float random(float x)
+            {
+                float s = sin(x);
+                return frac(s * 43758.5453123);
+            }
+
+            float noise(float x)
+            {
+                float i = floor(x);
+                float f = frac(x);
+
+                float a = random(i);
+                float b = random(i + 1.0);
+
+                return lerp(a,b,f);
+                
             }
 
             fixed4 frag (v2f i) : SV_Target
